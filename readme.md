@@ -2,14 +2,15 @@
 
 A Django-based web application featuring user registration and authentication, and machine learning-based loan predictions.
 
-The application currently provides two prediction capabilities:
+The application currently provides three prediction capabilities:
 
 - **Loan Eligibility Prediction:** Uses LE-DKDNet (Loan Eligibility Deep Knowledge Distillation Network), a lightweight neural network trained using Knowledge Distillation, to estimate an applicant's loan eligibility.
 - **Loan Uptake Prediction:** Uses the existing machine learning model to predict the likelihood of a customer taking up a loan.
+- **Default Risk Prediction:** Uses a LightGBM model to estimate the probability of loan default based on an applicant's financial and credit information.
 
 ## 1. Model Architecture
 
-The application integrates two independent prediction models.
+The application integrates three independent prediction models.
 
 ### Loan Eligibility – LE-DKDNet
 
@@ -27,17 +28,52 @@ The model estimates loan eligibility based on applicant information such as age,
 
 The application also retains its existing machine learning model for predicting the likelihood of loan uptake.
 
+### Default Risk Prediction – LightGBM
+
+The application integrates a LightGBM-based model to estimate the probability of a customer defaulting on a loan.
+
+- **Model:** LightGBM
+- **Framework:** LightGBM
+- **Inference:** Uses the trained model artifacts for prediction without requiring model retraining.
+- **Calibration:** Platt scaling is applied to calibrate predicted probabilities.
+- **Classification:** Predictions are classified using the configured decision threshold.
+- **Risk Categorization:** Results are grouped into Low, Medium, and High risk categories based on predefined probability bands.
+
+The model uses financial and credit-related information, including loan amount, annual income, debt-to-income ratio, FICO score, employment length, credit history, revolving utilization, and public credit records.
+
+**Model Artifacts:**
+
+The Default Risk model files are stored in:
+
+`prediction/default_risk_model/`
+
+The directory contains:
+
+- `model.txt` – Trained LightGBM model.
+- `model_info.json` – Model configuration and calibration information.
+- `preprocessing_spec.json` – Feature preprocessing specifications.
+- `default_risk_inference.py` – Inference implementation.
+- `__init__.py` – Python package initialization.
+
+No separate model training is required to run Default Risk predictions.
+
+**Important:** The Default Risk model was trained using historical US LendingClub loan data from 2009–2015. It has not been validated for current lending decisions or Indian applicants. Its predictions are intended for demonstration and research purposes.
+
 ### Project Dependencies
 
 The project dependencies include:
 
 - **Django** – Web application framework
 - **PyTorch** – Student neural network inference
+- **LightGBM** – Default Risk prediction model
 - **NumPy** – Numerical operations and preprocessing
+- **SciPy** – Scientific computing utilities
 - **Scikit-learn** – Existing machine learning model and preprocessing utilities
+- **Pandas** – Data manipulation and processing
+- **Joblib** – Model and object serialization utilities
 - **python-dotenv** – Environment variable management
 
-**Note:** PyTorch is used for the LE-DKDNet Student model. The Teacher model is not required to run the application.
+**Note:** PyTorch is used for the LE-DKDNet Student model. The Teacher model is not required to run the application. LightGBM is required for Default Risk predictions.
 
 ## 2. Prerequisites
 
@@ -130,7 +166,7 @@ Install all required Python packages:
 pip install -r requirements.txt
 ```
 
-This installs Django and the other dependencies required by the application, including PyTorch, NumPy, Scikit-learn, and the environment-variable loader.
+This installs Django and the other dependencies required by the application, including PyTorch, NumPy, SciPy, Scikit-learn, Pandas, Joblib, LightGBM, and the environment-variable loader.
 
 **Note:** There is no need to install Django or individual packages separately when the requirements file has been installed successfully.
 
@@ -178,7 +214,7 @@ Open your browser and visit:
 
 **http://127.0.0.1:8000/**
 
-You should now be able to access the Loan Prediction AI application.
+You should now be able to access the Loan Prediction AI application and its three prediction modules.
 
 To stop the server, press:
 
@@ -225,6 +261,22 @@ Make sure the virtual environment is activated and run:
 pip install -r requirements.txt
 ```
 
+**Issue: LightGBM model loading errors**
+
+Make sure the following files are present in `prediction/default_risk_model/`:
+
+- `model.txt`
+- `model_info.json`
+- `preprocessing_spec.json`
+- `default_risk_inference.py`
+- `__init__.py`
+
+Also verify that LightGBM is installed:
+
+```powershell
+python -c "import lightgbm; print(lightgbm.__version__)"
+```
+
 **Issue: Database or migration errors**
 
 Run:
@@ -267,10 +319,12 @@ python manage.py runserver
 
 Open http://127.0.0.1:8000/ to access the application.
 
-The repository includes the trained model artifacts required for Loan Eligibility Prediction. No separate model training or Teacher model download is required to run predictions.
-
-**That's it!** The application should now be running on your local development server.
+The repository includes the trained model artifacts required for Loan Eligibility Prediction and Default Risk Prediction. No separate model training or Teacher model download is required to run predictions.
 
 ## 12. Model Disclaimer
 
 The Loan Eligibility model provides an estimated prediction based on its training data. It is intended for demonstration and research purposes and should not be interpreted as an actual loan approval or rejection decision by a financial institution.
+
+The Default Risk model estimates the probability of loan default using historical US LendingClub data from 2009–2015. Its predictions and risk categories are intended for demonstration and research purposes. The model has not been validated for current lending decisions or Indian applicants and should not be treated as a definitive lending decision.
+
+The Loan Uptake model provides an estimate of the likelihood of a customer accepting a future loan offer based on its training data. Its predictions should also be treated as estimates rather than guaranteed outcomes.
