@@ -66,17 +66,20 @@
     </div>
 
     <!-- Default Risk -->
-    <div class="card card-red">
-        <h3>Default Risk Head</h3>
-        <p class="model-type">Dense + Sigmoid</p>
+    <!-- Default Risk -->
+<div class="card card-red">
+    <h3>Default Risk Head</h3>
+    <p class="model-type">LightGBM</p>
 
-        <div class="question-box">
-            <p class="question">Will the person become a defaulter?</p>
-            <p class="answer">Yes / No</p>
-        </div>
-
-        <button type="button">Predict</button>
+    <div class="question-box">
+        <p class="question">Will the person become a defaulter?</p>
+        <p class="answer">Low / Medium / High Risk</p>
     </div>
+
+    <form action="{% url 'default_risk_prediction' %}" method="get">
+        <button type="submit">Predict</button>
+    </form>
+</div>
 
     <!-- Future Loan Uptake -->
     <div class="card card-green">

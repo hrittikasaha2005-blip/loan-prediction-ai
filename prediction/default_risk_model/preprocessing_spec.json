@@ -1,0 +1,276 @@
+{
+  "spec_version": 1,
+  "numeric": [
+    "loan_amnt",
+    "annual_inc",
+    "dti",
+    "emp_length",
+    "fico_score",
+    "delinq_2yrs",
+    "inq_last_6mths",
+    "open_acc",
+    "pub_rec",
+    "revol_bal",
+    "revol_util",
+    "total_acc",
+    "credit_history_months",
+    "pub_rec_bankruptcies",
+    "collections_12_mths_ex_med",
+    "tax_liens",
+    "acc_now_delinq",
+    "delinq_amnt",
+    "chargeoff_within_12_mths"
+  ],
+  "categorical": [
+    "home_ownership",
+    "purpose"
+  ],
+  "required": [
+    "loan_amnt",
+    "annual_inc",
+    "dti",
+    "fico_score"
+  ],
+  "clip": {
+    "loan_amnt": [
+      1200.0,
+      35000.0
+    ],
+    "annual_inc": [
+      14400.0,
+      283040.43000000145
+    ],
+    "dti": [
+      0.63,
+      34.1
+    ],
+    "emp_length": [
+      0.0,
+      10.0
+    ],
+    "fico_score": [
+      662.0,
+      812.0
+    ],
+    "delinq_2yrs": [
+      0.0,
+      4.0
+    ],
+    "inq_last_6mths": [
+      0.0,
+      5.0
+    ],
+    "open_acc": [
+      2.0,
+      26.0
+    ],
+    "pub_rec": [
+      0.0,
+      2.0
+    ],
+    "revol_bal": [
+      0.0,
+      102245.95000000007
+    ],
+    "revol_util": [
+      0.0,
+      98.5
+    ],
+    "total_acc": [
+      4.0,
+      61.0
+    ],
+    "credit_history_months": [
+      42.0,
+      489.0
+    ],
+    "pub_rec_bankruptcies": [
+      0.0,
+      1.0
+    ],
+    "collections_12_mths_ex_med": [
+      0.0,
+      0.0
+    ],
+    "tax_liens": [
+      0.0,
+      1.0
+    ],
+    "acc_now_delinq": [
+      0.0,
+      0.0
+    ],
+    "delinq_amnt": [
+      0.0,
+      0.0
+    ],
+    "chargeoff_within_12_mths": [
+      0.0,
+      0.0
+    ]
+  },
+  "log1p": [
+    "loan_amnt",
+    "annual_inc",
+    "revol_bal"
+  ],
+  "categories": {
+    "home_ownership": [
+      "mortgage",
+      "own",
+      "rent",
+      "__other__"
+    ],
+    "purpose": [
+      "car",
+      "credit_card",
+      "debt_consolidation",
+      "educational",
+      "home_improvement",
+      "house",
+      "major_purchase",
+      "medical",
+      "moving",
+      "other",
+      "small_business",
+      "vacation",
+      "wedding",
+      "__other__"
+    ]
+  },
+  "mlp": {
+    "median": {
+      "loan_amnt": 9.210440366976517,
+      "annual_inc": 11.002116507732017,
+      "dti": 15.79,
+      "emp_length": 6.0,
+      "fico_score": 697.0,
+      "delinq_2yrs": 0.0,
+      "inq_last_6mths": 0.0,
+      "open_acc": 10.0,
+      "pub_rec": 0.0,
+      "revol_bal": 9.300820725104558,
+      "revol_util": 58.0,
+      "total_acc": 22.0,
+      "credit_history_months": 163.0,
+      "pub_rec_bankruptcies": 0.0,
+      "collections_12_mths_ex_med": 0.0,
+      "tax_liens": 0.0,
+      "acc_now_delinq": 0.0,
+      "delinq_amnt": 0.0,
+      "chargeoff_within_12_mths": 0.0
+    },
+    "mean": {
+      "loan_amnt": 9.19232309579024,
+      "annual_inc": 10.997997212713077,
+      "dti": 16.126727793194128,
+      "emp_length": 5.745985102964802,
+      "fico_score": 701.8006426172046,
+      "delinq_2yrs": 0.212636191032569,
+      "inq_last_6mths": 0.7861253103549,
+      "open_acc": 10.523633708193369,
+      "pub_rec": 0.09643931648897328,
+      "revol_bal": 9.143051149905252,
+      "revol_util": 55.95540160654313,
+      "total_acc": 23.486887688038557,
+      "credit_history_months": 179.4920753614722,
+      "pub_rec_bankruptcies": 0.07851613845479773,
+      "collections_12_mths_ex_med": 0.0,
+      "tax_liens": 0.007419307726011392,
+      "acc_now_delinq": 0.0,
+      "delinq_amnt": 0.0,
+      "chargeoff_within_12_mths": 0.0
+    },
+    "std": {
+      "loan_amnt": 0.6619592529609923,
+      "annual_inc": 0.5198733616161073,
+      "dti": 7.591343720194918,
+      "emp_length": 3.5086408209536084,
+      "fico_score": 31.941135607300343,
+      "delinq_2yrs": 0.5975778377750665,
+      "inq_last_6mths": 1.0078994191657493,
+      "open_acc": 4.505273115677593,
+      "pub_rec": 0.3196315587725397,
+      "revol_bal": 1.2556156482189138,
+      "revol_util": 24.305760897911806,
+      "total_acc": 11.056232734562089,
+      "credit_history_months": 84.60983369525752,
+      "pub_rec_bankruptcies": 0.26898207088342735,
+      "collections_12_mths_ex_med": 1.0,
+      "tax_liens": 0.08581527602272057,
+      "acc_now_delinq": 1.0,
+      "delinq_amnt": 1.0,
+      "chargeoff_within_12_mths": 1.0
+    },
+    "indicator_cols": [
+      "emp_length"
+    ],
+    "feature_names": [
+      "loan_amnt",
+      "annual_inc",
+      "dti",
+      "emp_length",
+      "fico_score",
+      "delinq_2yrs",
+      "inq_last_6mths",
+      "open_acc",
+      "pub_rec",
+      "revol_bal",
+      "revol_util",
+      "total_acc",
+      "credit_history_months",
+      "pub_rec_bankruptcies",
+      "collections_12_mths_ex_med",
+      "tax_liens",
+      "acc_now_delinq",
+      "delinq_amnt",
+      "chargeoff_within_12_mths",
+      "emp_length__isna",
+      "home_ownership=mortgage",
+      "home_ownership=own",
+      "home_ownership=rent",
+      "home_ownership=__other__",
+      "purpose=car",
+      "purpose=credit_card",
+      "purpose=debt_consolidation",
+      "purpose=educational",
+      "purpose=home_improvement",
+      "purpose=house",
+      "purpose=major_purchase",
+      "purpose=medical",
+      "purpose=moving",
+      "purpose=other",
+      "purpose=small_business",
+      "purpose=vacation",
+      "purpose=wedding",
+      "purpose=__other__"
+    ]
+  },
+  "lgb_feature_names": [
+    "loan_amnt",
+    "annual_inc",
+    "dti",
+    "emp_length",
+    "fico_score",
+    "delinq_2yrs",
+    "inq_last_6mths",
+    "open_acc",
+    "pub_rec",
+    "revol_bal",
+    "revol_util",
+    "total_acc",
+    "credit_history_months",
+    "pub_rec_bankruptcies",
+    "collections_12_mths_ex_med",
+    "tax_liens",
+    "acc_now_delinq",
+    "delinq_amnt",
+    "chargeoff_within_12_mths",
+    "home_ownership",
+    "purpose"
+  ],
+  "lgb_categorical_indices": [
+    19,
+    20
+  ]
+}

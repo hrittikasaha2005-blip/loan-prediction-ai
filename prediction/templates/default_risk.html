@@ -1,0 +1,205 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Default Risk Prediction</title>
+    <link rel="stylesheet" href="{% static 'css/loan_eligibility.css' %}">
+</head>
+<body>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>Default Risk Prediction</h1>
+        <p>Enter applicant financial and credit details to estimate the probability of loan default.</p>
+    </div>
+
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-section">
+                <h2>Required Financial Information</h2>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="loan_amnt">Loan Amount (USD) *</label>
+                        <input type="number" id="loan_amnt" name="loan_amnt"
+                               step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="annual_inc">Annual Income (USD) *</label>
+                        <input type="number" id="annual_inc" name="annual_inc"
+                               step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dti">Debt-to-Income Ratio (%) *</label>
+                        <input type="number" id="dti" name="dti"
+                               step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fico_score">FICO Score *</label>
+                        <input type="number" id="fico_score" name="fico_score"
+                               min="300" max="850" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Employment and Loan Details</h2>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="emp_length">Employment Length</label>
+                        <select id="emp_length" name="emp_length">
+                            <option value="">Not provided</option>
+                            {% for value in emp_length_choices %}
+                                <option value="{{ value }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="home_ownership">Home Ownership</label>
+                        <select id="home_ownership" name="home_ownership">
+                            <option value="">Not provided</option>
+                            <option value="mortgage">Mortgage</option>
+                            <option value="own">Own</option>
+                            <option value="rent">Rent</option>
+                            <option value="__other__">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="purpose">Loan Purpose</label>
+                        <select id="purpose" name="purpose">
+                            <option value="">Not provided</option>
+                            {% for value, label in purpose_choices %}
+                                <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Credit History</h2>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="credit_history_months">Credit History (Months)</label>
+                        <input type="number" id="credit_history_months"
+                               name="credit_history_months" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="delinq_2yrs">Delinquencies (Last 2 Years)</label>
+                        <input type="number" id="delinq_2yrs"
+                               name="delinq_2yrs" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inq_last_6mths">Credit Inquiries (Last 6 Months)</label>
+                        <input type="number" id="inq_last_6mths"
+                               name="inq_last_6mths" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="open_acc">Open Credit Accounts</label>
+                        <input type="number" id="open_acc" name="open_acc" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="total_acc">Total Credit Accounts</label>
+                        <input type="number" id="total_acc" name="total_acc" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="revol_bal">Revolving Balance (USD)</label>
+                        <input type="number" id="revol_bal" name="revol_bal"
+                               step="0.01" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="revol_util">Revolving Utilization (%)</label>
+                        <input type="number" id="revol_util" name="revol_util"
+                               step="0.01" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Additional Credit Records</h2>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="pub_rec">Public Records</label>
+                        <input type="number" id="pub_rec" name="pub_rec" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pub_rec_bankruptcies">Public Record Bankruptcies</label>
+                        <input type="number" id="pub_rec_bankruptcies"
+                               name="pub_rec_bankruptcies" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="collections_12_mths_ex_med">Collections (Last 12 Months)</label>
+                        <input type="number" id="collections_12_mths_ex_med"
+                               name="collections_12_mths_ex_med" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tax_liens">Tax Liens</label>
+                        <input type="number" id="tax_liens" name="tax_liens" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="acc_now_delinq">Current Delinquencies</label>
+                        <input type="number" id="acc_now_delinq"
+                               name="acc_now_delinq" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="delinq_amnt">Delinquency Amount (USD)</label>
+                        <input type="number" id="delinq_amnt"
+                               name="delinq_amnt" step="0.01" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chargeoff_within_12_mths">Charge-offs (Last 12 Months)</label>
+                        <input type="number" id="chargeoff_within_12_mths"
+                               name="chargeoff_within_12_mths" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <strong>Note:</strong> This prototype model was trained on historical
+                US LendingClub loan data from 2009–2015. It has not been validated
+                for current lending decisions or Indian applicants. All monetary
+                inputs are expected in USD. Risk estimates should not be treated
+                as definitive lending decisions.
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="predict-btn">Predict Default Risk</button>
+                <button type="reset" class="reset-btn">Reset</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

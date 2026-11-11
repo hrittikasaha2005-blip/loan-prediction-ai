@@ -6,16 +6,26 @@ from .forms import UsernamePasswordResetForm
 
 urlpatterns = [
     path('', views.home, name='home'),
+
     path(
         'loan-prediction/',
         views.loan_prediction,
         name='loan_prediction'
     ),
+
     path(
-       'loan-eligibility/',
-       views.loan_eligibility,
-       name='loan_eligibility'
+        'loan-eligibility/',
+        views.loan_eligibility,
+        name='loan_eligibility'
     ),
+
+    # Default Risk Prediction - LightGBM
+    path(
+        'default-risk/',
+        views.default_risk_prediction,
+        name='default_risk_prediction'
+    ),
+
     path(
         'login/',
         views.CustomLoginView.as_view(),
@@ -35,16 +45,16 @@ urlpatterns = [
     ),
 
     path(
-    'forgot-password/',
-    auth_views.PasswordResetView.as_view(
-        template_name='password_reset.html',
-        form_class=UsernamePasswordResetForm,
-        email_template_name='password_reset_email.html',
-        subject_template_name='password_reset_subject.txt',
-        success_url='/forgot-password/sent/'
+        'forgot-password/',
+        auth_views.PasswordResetView.as_view(
+            template_name='password_reset.html',
+            form_class=UsernamePasswordResetForm,
+            email_template_name='password_reset_email.html',
+            subject_template_name='password_reset_subject.txt',
+            success_url='/forgot-password/sent/'
+        ),
+        name='password_reset'
     ),
-    name='password_reset'
-),
 
     path(
         'forgot-password/sent/',
@@ -70,6 +80,4 @@ urlpatterns = [
         ),
         name='password_reset_complete'
     ),
-
-    
 ]

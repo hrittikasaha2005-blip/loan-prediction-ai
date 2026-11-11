@@ -1,0 +1,75 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Default Risk Result</title>
+    <link rel="stylesheet" href="{% static 'css/loan_eligibility.css' %}">
+</head>
+<body>
+
+<div class="page-container result-page">
+
+    <div class="page-header">
+        <h1>Default Risk Prediction Result</h1>
+        <p>LightGBM model assessment</p>
+    </div>
+
+    <div class="result-card">
+
+        <div class="result-status">
+            <h2>{{ result.risk_category }} Risk</h2>
+            <p>Predicted Classification: <strong>{{ result.predicted_label }}</strong></p>
+        </div>
+
+        <div class="result-details">
+
+            <div class="result-item">
+                <span>Default Probability</span>
+                <strong>{{ probability_percent|floatformat:2 }}%</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Decision Threshold</span>
+                <strong>{{ threshold_percent|floatformat:2 }}%</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Risk Category</span>
+                <strong>{{ result.risk_category }}</strong>
+            </div>
+
+            <div class="result-item">
+                <span>Predicted Outcome</span>
+                <strong>{{ result.predicted_label }}</strong>
+            </div>
+
+        </div>
+
+        
+
+        {% if result.imputed_optional_fields %}
+            <div class="disclaimer">
+                <strong>Missing optional information:</strong>
+                <p>
+                    The model handled the following missing fields internally:
+                    {{ result.imputed_optional_fields|join:", " }}.
+                </p>
+            </div>
+        {% endif %}
+
+
+            <a href="{% url 'home' %}" class="home-btn">
+                Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

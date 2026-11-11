@@ -1,0 +1,68 @@
+{
+  "model_type": "lightgbm",
+  "model_file": "model.txt",
+  "calibration": {
+    "method": "platt",
+    "a": 0.9794531425897487,
+    "b": 0.053578911551500734
+  },
+  "decision_threshold": 0.2024999999999999,
+  "risk_low_max": 0.10124999999999995,
+  "risk_bands_note": "HEURISTIC bands, not independently validated categories: High = calibrated p >= the cost-based decision threshold; Low = p < 0.50 x that threshold (an arbitrary factor); Medium = in between. Observed default rates per band are reported descriptively; the cut-offs were not optimised or tested for stability.",
+  "risk_bands": {
+    "Low": "p < 0.1012",
+    "Medium": "0.1012 <= p < 0.2025",
+    "High": "p >= 0.2025"
+  },
+  "cost_ratio_fn_to_fp": 4.0,
+  "feature_order": [
+    "loan_amnt",
+    "annual_inc",
+    "dti",
+    "emp_length",
+    "fico_score",
+    "delinq_2yrs",
+    "inq_last_6mths",
+    "open_acc",
+    "pub_rec",
+    "revol_bal",
+    "revol_util",
+    "total_acc",
+    "credit_history_months",
+    "pub_rec_bankruptcies",
+    "collections_12_mths_ex_med",
+    "tax_liens",
+    "acc_now_delinq",
+    "delinq_amnt",
+    "chargeoff_within_12_mths",
+    "home_ownership",
+    "purpose"
+  ],
+  "required_inputs": [
+    "loan_amnt",
+    "annual_inc",
+    "dti",
+    "fico_score"
+  ],
+  "optional_inputs": [
+    "emp_length",
+    "delinq_2yrs",
+    "inq_last_6mths",
+    "open_acc",
+    "pub_rec",
+    "revol_bal",
+    "revol_util",
+    "total_acc",
+    "credit_history_months",
+    "pub_rec_bankruptcies",
+    "collections_12_mths_ex_med",
+    "tax_liens",
+    "acc_now_delinq",
+    "delinq_amnt",
+    "chargeoff_within_12_mths",
+    "home_ownership",
+    "purpose"
+  ],
+  "missing_value_policy": "required inputs must be present (training excluded loans lacking them; inference raises). Optional numeric inputs may be missing in both (LightGBM native NaN / MLP train-median + missing flag); missing or unseen categories map to '__other__' in both.",
+  "scope": "US unsecured 36-month LendingClub loans, 2009-2015 vintages. Prototype."
+}
