@@ -1,6 +1,6 @@
 # Loan Prediction AI
 
-A Django-based web application featuring user registration, authentication, password reset functionality, and machine learning-based loan predictions.
+A Django-based web application featuring user registration and authentication, and machine learning-based loan predictions.
 
 The application currently provides two prediction capabilities:
 
