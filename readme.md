@@ -1,307 +1,186 @@
-# Loan Prediction AI
-
+Loan Prediction AI
 A Django-based web application featuring user registration and authentication, and machine learning-based loan predictions.
 
 The application currently provides three prediction capabilities:
-
-- **Loan Eligibility Prediction:** Uses LE-DKDNet (Loan Eligibility Deep Knowledge Distillation Network), a lightweight neural network trained using Knowledge Distillation, to estimate an applicant's loan eligibility.
-- **Loan Uptake Prediction:** Uses the existing machine learning model to predict the likelihood of a customer taking up a loan.
-- **Default Risk Prediction:** Uses a LightGBM model to estimate the probability of loan default based on an applicant's financial and credit information.
-
-## 1. Model Architecture
-
+- Loan Eligibility Prediction: Uses LE-DKDNet (Loan Eligibility Deep Knowledge Distillation Network), a lightweight neural network trained using Knowledge Distillation, to estimate an applicant's loan eligibility.
+- Loan Uptake Prediction: Uses the existing machine learning model to predict the likelihood of a customer taking up a loan.
+- Default Risk Prediction: Uses a LightGBM model to estimate the probability of loan default based on an applicant's financial and credit information.
+1. Model Architecture
 The application integrates three independent prediction models.
-
-### Loan Eligibility – LE-DKDNet
-
+Loan Eligibility – LE-DKDNet
 LE-DKDNet (Loan Eligibility Deep Knowledge Distillation Network) is a lightweight Multi-Layer Perceptron (MLP) trained using Knowledge Distillation.
-
-- **Teacher Model:** FLANG-BERT
-- **Student Model:** Lightweight MLP neural network
-- **Training Approach:** Knowledge Distillation
-- **Inference:** The trained Student model performs predictions without requiring the Teacher model.
-- **Framework:** PyTorch
-
+- Teacher Model: FLANG-BERT
+- Student Model: Lightweight MLP neural network
+- Training Approach: Knowledge Distillation
+- Inference: The trained Student model performs predictions without requiring the Teacher model.
+- Framework: PyTorch
 The model estimates loan eligibility based on applicant information such as age, annual income, credit score, loan amount, loan term, debt-to-income ratio, employment type, and loan purpose.
-
-### Loan Uptake Prediction
-
+Loan Uptake Prediction
 The application also retains its existing machine learning model for predicting the likelihood of loan uptake.
-
-### Default Risk Prediction – LightGBM
-
+Default Risk Prediction – LightGBM
 The application integrates a LightGBM-based model to estimate the probability of a customer defaulting on a loan.
-
-- **Model:** LightGBM
-- **Framework:** LightGBM
-- **Inference:** Uses the trained model artifacts for prediction without requiring model retraining.
-- **Calibration:** Platt scaling is applied to calibrate predicted probabilities.
-- **Classification:** Predictions are classified using the configured decision threshold.
-- **Risk Categorization:** Results are grouped into Low, Medium, and High risk categories based on predefined probability bands.
-
+- Model: LightGBM
+- Framework: LightGBM
+- Inference: Uses the trained model artifacts for prediction without requiring model retraining.
+- Calibration: Platt scaling is applied to calibrate predicted probabilities.
+- Classification: Predictions are classified using the configured decision threshold.
+- Risk Categorization: Results are grouped into Low, Medium, and High risk categories based on predefined probability bands.
 The model uses financial and credit-related information, including loan amount, annual income, debt-to-income ratio, FICO score, employment length, credit history, revolving utilization, and public credit records.
 
-**Model Artifacts:**
+Model Artifacts:
 
 The Default Risk model files are stored in:
 
-`prediction/default_risk_model/`
+prediction/default_risk_model/
 
 The directory contains:
-
-- `model.txt` – Trained LightGBM model.
-- `model_info.json` – Model configuration and calibration information.
-- `preprocessing_spec.json` – Feature preprocessing specifications.
-- `default_risk_inference.py` – Inference implementation.
-- `__init__.py` – Python package initialization.
-
+- model.txt – Trained LightGBM model.
+- model_info.json – Model configuration and calibration information.
+- preprocessing_spec.json – Feature preprocessing specifications.
+- default_risk_inference.py – Inference implementation.
+- __init__.py – Python package initialization.
 No separate model training is required to run Default Risk predictions.
 
-**Important:** The Default Risk model was trained using historical US LendingClub loan data from 2009–2015. It has not been validated for current lending decisions or Indian applicants. Its predictions are intended for demonstration and research purposes.
-
-### Project Dependencies
-
+Important: The Default Risk model was trained using historical US LendingClub loan data from 2009–2015. It has not been validated for current lending decisions or Indian applicants. Its predictions are intended for demonstration and research purposes.
+Project Dependencies
 The project dependencies include:
-
-- **Django** – Web application framework
-- **PyTorch** – Student neural network inference
-- **LightGBM** – Default Risk prediction model
-- **NumPy** – Numerical operations and preprocessing
-- **SciPy** – Scientific computing utilities
-- **Scikit-learn** – Existing machine learning model and preprocessing utilities
-- **Pandas** – Data manipulation and processing
-- **Joblib** – Model and object serialization utilities
-- **python-dotenv** – Environment variable management
-
-**Note:** PyTorch is used for the LE-DKDNet Student model. The Teacher model is not required to run the application. LightGBM is required for Default Risk predictions.
-
-## 2. Prerequisites
-
+- Django – Web application framework
+- PyTorch – Student neural network inference
+- LightGBM – Default Risk prediction model
+- NumPy – Numerical operations and preprocessing
+- SciPy – Scientific computing utilities
+- Scikit-learn – Existing machine learning model and preprocessing utilities
+- Pandas – Data manipulation and processing
+- Joblib – Model and object serialization utilities
+- python-dotenv – Environment variable management
+Note: PyTorch is used for the LE-DKDNet Student model. The Teacher model is not required to run the application. LightGBM is required for Default Risk predictions.
+2. Prerequisites
 Install the following software before starting:
+Software	Purpose
+Python 3.12	Run the Django application
+Git	Clone the repository
+VS Code (recommended)	Code editor and terminal
 
-| Software | Purpose |
-|---|---|
-| Python 3.14 | Run the Django application |
-| Git | Clone the repository |
-| VS Code (recommended) | Code editor and terminal |
 
 Download links:
-
 - Python: https://www.python.org/downloads/
 - Git: https://git-scm.com/downloads
 - VS Code: https://code.visualstudio.com/
-
-During Python installation on Windows, make sure to select **Add Python to PATH**.
+During Python installation on Windows, make sure to select Add Python to PATH.
 
 To verify the installations, open PowerShell or the VS Code terminal:
-
-```powershell
 python --version
 git --version
-```
-
-## 3. Clone the Repository
-
+3. Clone the Repository
 Open a terminal and navigate to the directory where you want to store the project.
 
 Clone the repository:
-
-```powershell
 git clone https://github.com/dotoeidot/loan-prediction-ai.git
-```
-
 Navigate into the project directory:
-
-```powershell
 cd loan-prediction-ai
-```
-
 Open the project in VS Code:
-
-```powershell
 code .
-```
-
-## 4. Create a Virtual Environment
-
+4. Create a Virtual Environment
 A virtual environment keeps the project's Python dependencies separate from other Python projects.
 
 Create the virtual environment:
-
-```powershell
 python -m venv venv
-```
-
 Activate it:
-
-```powershell
 .\venv\Scripts\Activate.ps1
-```
-
 If PowerShell blocks script execution, run:
-
-```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
-
 Then activate the environment again:
-
-```powershell
 .\venv\Scripts\Activate.ps1
-```
-
-Once activated, you should see `(venv)` at the beginning of your terminal prompt.
-
-## 5. Install Project Dependencies
-
+Once activated, you should see (venv) at the beginning of your terminal prompt.
+5. Install Project Dependencies
 Upgrade pip:
-
-```powershell
 python -m pip install --upgrade pip
-```
-
 Install all required Python packages:
-
-```powershell
 pip install -r requirements.txt
-```
-
 This installs Django and the other dependencies required by the application, including PyTorch, NumPy, SciPy, Scikit-learn, Pandas, Joblib, LightGBM, and the environment-variable loader.
 
-**Note:** There is no need to install Django or individual packages separately when the requirements file has been installed successfully.
+Note: There is no need to install Django or individual packages separately when the requirements file has been installed successfully.
+6. Environment Configuration
+The application uses a .env file to configure Gmail SMTP for email-related functionality, such as sending password-reset emails.
 
-## 6. Environment Configuration
+Important: The .env file is not included in this repository to protect sensitive credentials.
 
-The project uses a `.env` file in the root directory, alongside `manage.py`, to load the email configuration.
-
-The `.env` file is included in the repository, so no separate environment-variable setup should be required.
-
-Django loads these settings automatically when the application starts.
-
-## 7. Set Up the Database
-
+To obtain the .env file, please email hrittikasaha2005@gmail.com and request access. Once you receive it:
+1. Place the .env file in the project's root directory, at the same level as manage.py.
+2. Open the project in your IDE (for example, VS Code) and make sure the file is present there.
+3. Django will load the environment variables automatically when the application starts.
+The supplied .env file contains the required Gmail SMTP configuration. No separate SMTP setup is needed once the file is in the correct location.
+7. Set Up the Database
 The application uses SQLite as its database.
 
 Run the following command to apply the database migrations:
-
-```powershell
 python manage.py migrate
-```
-
 This creates the required database tables for Django authentication and the application's models.
 
 If you want to access Django's administrative panel, create a superuser:
-
-```powershell
 python manage.py createsuperuser
-```
-
 Follow the prompts to configure the administrator username, email, and password.
 
 This step is optional.
-
-## 8. Start the Development Server
-
+8. Start the Development Server
 Run the following command:
-
-```powershell
 python manage.py runserver
-```
-
 If everything is configured correctly, Django will start the local development server.
 
 Open your browser and visit:
 
-**http://127.0.0.1:8000/**
+http://127.0.0.1:8000/
 
 You should now be able to access the Loan Prediction AI application and its three prediction modules.
 
 To stop the server, press:
-
-```text
 CTRL + C
-```
+9. Common Commands
+Command	Purpose
+python manage.py runserver	Start the development server
+python manage.py migrate	Apply database migrations
+python manage.py makemigrations	Generate migrations after model changes
+python manage.py createsuperuser	Create an administrator account
+python manage.py check	Check the Django project for configuration issues
+pip install -r requirements.txt	Install project dependencies
 
-## 9. Common Commands
 
-| Command | Purpose |
-|---|---|
-| `python manage.py runserver` | Start the development server |
-| `python manage.py migrate` | Apply database migrations |
-| `python manage.py makemigrations` | Generate migrations after model changes |
-| `python manage.py createsuperuser` | Create an administrator account |
-| `python manage.py check` | Check the Django project for configuration issues |
-| `pip install -r requirements.txt` | Install project dependencies |
-
-## 10. Troubleshooting
-
-**Issue: Python is not recognized**
+10. Troubleshooting
+Issue: Python is not recognized
 
 Python may not have been added to the Windows PATH. Reinstall Python with the PATH option enabled, or use the Python launcher:
-
-```powershell
 py --version
-```
-
-**Issue: Virtual environment activation is blocked**
+Issue: Virtual environment activation is blocked
 
 Run:
-
-```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
-
 Then activate the environment again.
 
-**Issue: ModuleNotFoundError**
+Issue: ModuleNotFoundError
 
 Make sure the virtual environment is activated and run:
-
-```powershell
 pip install -r requirements.txt
-```
+Issue: LightGBM model loading errors
 
-**Issue: LightGBM model loading errors**
-
-Make sure the following files are present in `prediction/default_risk_model/`:
-
-- `model.txt`
-- `model_info.json`
-- `preprocessing_spec.json`
-- `default_risk_inference.py`
-- `__init__.py`
-
+Make sure the following files are present in prediction/default_risk_model/:
+- model.txt
+- model_info.json
+- preprocessing_spec.json
+- default_risk_inference.py
+- __init__.py
 Also verify that LightGBM is installed:
-
-```powershell
 python -c "import lightgbm; print(lightgbm.__version__)"
-```
-
-**Issue: Database or migration errors**
+Issue: Database or migration errors
 
 Run:
-
-```powershell
 python manage.py migrate
-```
-
-**Issue: Port 8000 is already in use**
+Issue: Port 8000 is already in use
 
 Start the application on another port:
-
-```powershell
 python manage.py runserver 8001
-```
-
 Then visit http://127.0.0.1:8001/.
-
----
-
-## 11. Project Setup Summary
-
+11. Project Setup Summary
 For future reference, once Git and Python are installed, the essential setup commands are:
-
-```powershell
 git clone https://github.com/dotoeidot/loan-prediction-ai.git
 
 cd loan-prediction-ai
@@ -315,14 +194,10 @@ pip install -r requirements.txt
 python manage.py migrate
 
 python manage.py runserver
-```
-
 Open http://127.0.0.1:8000/ to access the application.
 
 The repository includes the trained model artifacts required for Loan Eligibility Prediction and Default Risk Prediction. No separate model training or Teacher model download is required to run predictions.
-
-## 12. Model Disclaimer
-
+12. Model Disclaimer
 The Loan Eligibility model provides an estimated prediction based on its training data. It is intended for demonstration and research purposes and should not be interpreted as an actual loan approval or rejection decision by a financial institution.
 
 The Default Risk model estimates the probability of loan default using historical US LendingClub data from 2009–2015. Its predictions and risk categories are intended for demonstration and research purposes. The model has not been validated for current lending decisions or Indian applicants and should not be treated as a definitive lending decision.
